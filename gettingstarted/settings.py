@@ -8,6 +8,10 @@ from pathlib import Path
 
 import dj_database_url
 
+# ========================
+# BASE
+# ========================
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -20,11 +24,11 @@ SECRET_KEY = os.environ.get(
     default=secrets.token_urlsafe(64),
 )
 
-DEBUG = True  # na laby OK
+DEBUG = True  # LAB
 
 
 # ========================
-# HOSTS (KLUCZOWE!)
+# HOSTS (RENDER + LOCAL)
 # ========================
 
 ALLOWED_HOSTS = [
@@ -132,4 +136,12 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "handlers": {
-        "console":
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
+}
