@@ -15,7 +15,6 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # ========================
 # SECURITY
 # ========================
@@ -26,7 +25,6 @@ SECRET_KEY = os.environ.get(
 )
 
 DEBUG = True  # LAB / ustaw False na produkcji
-
 
 # ========================
 # HOSTS (RENDER + LOCAL)
@@ -39,7 +37,6 @@ ALLOWED_HOSTS = [
     "lab1-python-bboh.onrender.com",
 ]
 
-
 # ========================
 # APPLICATIONS
 # ========================
@@ -49,7 +46,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "hello",
 ]
-
 
 # ========================
 # MIDDLEWARE
@@ -63,14 +59,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-
 # ========================
 # URLS / WSGI
 # ========================
 
 ROOT_URLCONF = "gettingstarted.urls"
 WSGI_APPLICATION = "gettingstarted.wsgi.application"
-
 
 # ========================
 # TEMPLATES
@@ -89,11 +83,11 @@ TEMPLATES = [
     },
 ]
 
-
 # ========================
 # DATABASE
 # ========================
 
+# Domyslnie lokalnie SQLite
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -101,7 +95,15 @@ DATABASES = {
     }
 }
 
-
+# Jesli istnieje DATABASE_URL (np. na Render), uzyj PostgreSQL
+if os.environ.get("DATABASE_URL"):
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.environ.get("DATABASE_URL"),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
 
 # ========================
 # I18N
@@ -111,7 +113,6 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
-
 
 # ========================
 # STATIC FILES
@@ -128,12 +129,10 @@ STORAGES = {
 
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 
-
 # ========================
 # HTTPS / RENDER
 # ========================
 
-# Render dziala za proxy - TO JEST KLUCZOWE
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 USE_X_FORWARDED_HOST = True
 
@@ -146,7 +145,6 @@ CSRF_TRUSTED_ORIGINS = [
     "https://lab1-python.onrender.com",
     "https://lab1-python-bboh.onrender.com",
 ]
-
 
 # ========================
 # LOGGING
