@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for gettingstarted project.
 """
@@ -94,12 +95,13 @@ TEMPLATES = [
 # ========================
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+ "default": dj_database_url.config(
+ default=os.environ.get("DATABASE_URL", "sqlite:///db.sqlite3"),
+ conn_max_age=600,
+ conn_health_checks=True,
+ )
 }
+
 
 
 # ========================
@@ -132,7 +134,7 @@ WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 # HTTPS / RENDER
 # ========================
 
-# Render dziala za proxy — TO JEST KLUCZOWE
+# Render dziala za proxy - TO JEST KLUCZOWE
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 USE_X_FORWARDED_HOST = True
 
